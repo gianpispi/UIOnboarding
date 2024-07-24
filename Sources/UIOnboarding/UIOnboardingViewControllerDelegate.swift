@@ -9,4 +9,5 @@ import UIKit
 
 public protocol UIOnboardingViewControllerDelegate: AnyObject {
     func didFinishOnboarding(onboardingViewController: UIOnboardingViewController)
+    func didPressTextViewLink(onboardingViewController: UIOnboardingViewController, link: String)
 }
