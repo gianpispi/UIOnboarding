@@ -10,7 +10,8 @@ import UIKit
 final class UIOnboardingTextView: UITextView {
     private let configuration: UIOnboardingTextViewConfiguration
     private var onLinkPressed: ((URL) -> Bool)?
-            
+    weak var onboardingDelegate: UIOnboardingTextViewDelegate?
+    
     init(withConfiguration configuration: UIOnboardingTextViewConfiguration) {
         self.configuration = configuration
         super.init(frame: .zero, textContainer: nil)
@@ -48,8 +49,17 @@ final class UIOnboardingTextView: UITextView {
     }
 }
 
+protocol UIOnboardingTextViewDelegate: AnyObject {
+    func didPressLink(_ link: String)
+}
+
 extension UIOnboardingTextView: UITextViewDelegate {
     func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
+        if URL.scheme == "custom" {
+            onboardingDelegate?.didPressLink(URL.absoluteString)
+            return false
+        }
+
         return onLinkPressed?(URL) ?? true
     }
 

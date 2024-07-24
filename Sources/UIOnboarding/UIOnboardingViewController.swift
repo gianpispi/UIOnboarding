@@ -235,6 +235,7 @@ private extension UIOnboardingViewController {
         }
         
         onboardingTextView = .init(withConfiguration: textViewConfiguration)
+        onboardingTextView?.onboardingDelegate = self
         bottomOverlayView.addSubview(onboardingTextView!)
             
         onboardingTextView!.bottomAnchor.constraint(equalTo: continueButton.topAnchor).isActive = true
@@ -306,5 +307,11 @@ private extension UIOnboardingViewController {
 extension UIOnboardingViewController: UIOnboardingButtonDelegate {
     func didPressContinueButton() {
         delegate?.didFinishOnboarding(onboardingViewController: self)
+    }
+}
+
+extension UIOnboardingViewController: UIOnboardingTextViewDelegate {
+    func didPressLink(_ link: String) {
+        delegate?.didPressTextViewLink(onboardingViewController: self, link: link)
     }
 }
